@@ -22,8 +22,9 @@ jobs:
     # Add steps for committing and pushing any changes you want in the release
 
     - name: Create Pull Request
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh auth setup-git -t ${{ secrets.GITHUB_TOKEN }}
         PR_URL=$(gh pr create --base main --head release-${{ github.event.inputs.version }} --title "Release ${{ github.event.inputs.version }}" --body "Release PR for version ${{ github.event.inputs.version }}" --label "release")
         echo "Pull Request URL: $PR_URL"
 
