@@ -23,7 +23,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pr_title: "Release ${{ github.event.inputs.version }}"
         pr_body: "Release PR for version ${{ github.event.inputs.version }}"
-        pr_base: "master"
+        pr_base: "main"
         pr_head: "develop"
 
 
