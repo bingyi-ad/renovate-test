@@ -19,12 +19,12 @@ jobs:
     - name: Create Pull Request
       id: create_pr
       uses: repo-sync/pull-request@v2
-      with:
-        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        INPUT_PR_TITLE: "Release ${{ github.event.inputs.version }}"
-        INPUT_PR_BODY: "Release PR for version ${{ github.event.inputs.version }}"
-        INPUT_PR_BASE: "master"
-        INPUT_PR_HEAD: "develop"
+      env:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Release ${{ github.event.inputs.version }}"
+        pr_body: "Release PR for version ${{ github.event.inputs.version }}"
+        pr_base: "master"
+        pr_head: "develop"
 
 
     # Add steps for automatically merging the PR, possibly waiting for checks
