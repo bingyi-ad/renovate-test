@@ -1,4 +1,4 @@
-name: Automated Release PR
+name: Create and Merge PR with GitHub CLI
 
 on:
   workflow_dispatch:
@@ -8,22 +8,30 @@ on:
         required: true
 
 jobs:
-  release:
+  create-and-merge-pr:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Create Release Branch
+      run: |
+        git checkout -b release-${{ github.event.inputs.version }} main
+        git push origin release-${{ github.event.inputs.version }}
+
     # Add steps for committing and pushing any changes you want in the release
 
-    - name: Create Release PR
-      env: 
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: | 
-        gh pr create -B "main" --title "Release ${{ github.event.inputs.version }}" --body "Release ${{ github.event.inputs.version }}"
-        gh pr merge --auto
-    
+    - name: Create Pull Request
+      run: |
+        gh auth setup-git -t ${{ secrets.GITHUB_TOKEN }}
+        PR_URL=$(gh pr create --base main --head release-${{ github.event.inputs.version }} --title "Release ${{ github.event.inputs.version }}" --body "Release PR for version ${{ github.event.inputs.version }}" --label "release")
+        echo "Pull Request URL: $PR_URL"
 
+    - name: Automatically Merge the Pull Request
+      run: |
+        PR_NUMBER=$(basename $PR_URL)
+        gh pr merge $PR_NUMBER --auto --squash
 
-    # Add steps for automatically merging the PR, possibly waiting for checks
-    # You may need to use GitHub API or another Action for merging
+    # Optional cleanup step
+    - name: Delete Release Branch
+      run: git push origin --delete release-${{ github.event.inputs.version }}
