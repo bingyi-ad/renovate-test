@@ -1,11 +1,4 @@
-name: Automated Release PR
-
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version Number'
-        required: true
+name: Create Release PR
 
 jobs:
   release:
@@ -16,12 +9,12 @@ jobs:
 
     # Add steps for committing and pushing any changes you want in the release
 
-    - name: Create Pull Request
+    - name: Create Release PR
       env: 
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: | 
         gh pr create --title "Release ${{ github.event.inputs.version }}" --body "Release ${{ github.event.inputs.version }}"
-        gh pr create --base origin/main --head origin/develop
+        gh pr create -b "main" -t "develop"
     
 
 
