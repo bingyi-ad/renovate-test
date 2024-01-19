@@ -22,6 +22,7 @@ jobs:
       run: | 
         gh pr create --title "Release ${{ github.event.inputs.version }}" --body "Release ${{ github.event.inputs.version }}"
         gh pr create -b "main" -t "develop"
+        gh pr merge --auto
     
 
 
