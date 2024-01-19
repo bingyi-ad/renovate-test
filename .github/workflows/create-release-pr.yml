@@ -11,7 +11,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
     # Add steps for committing and pushing any changes you want in the release
+
     - name: Create Pull Request
       env: 
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
