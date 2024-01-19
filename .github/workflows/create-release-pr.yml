@@ -16,7 +16,7 @@ jobs:
 
     - name: Create Release Branch
       run: |
-        git checkout -b release-${{ github.event.inputs.version }} main
+        git checkout -b release-${{ github.event.inputs.version }} develop
         git push origin release-${{ github.event.inputs.version }}
 
     # Add steps for committing and pushing any changes you want in the release
