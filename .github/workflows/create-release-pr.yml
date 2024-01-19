@@ -21,7 +21,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: | 
         gh pr create --title "Release ${{ github.event.inputs.version }}" --body "Release ${{ github.event.inputs.version }}"
-        gh pr create -b "main" -t "develop"
+        gh pr create -B "main"
         gh pr merge --auto
     
 
