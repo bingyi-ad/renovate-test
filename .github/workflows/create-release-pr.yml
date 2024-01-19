@@ -20,23 +20,12 @@ jobs:
       id: create_pr
       uses: repo-sync/pull-request@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        pr_title: "Release ${{ github.event.inputs.version }}"
-        pr_body: "Release PR for version ${{ github.event.inputs.version }}"
-        pr_base: "master"
-        pr_head: "develop"
+        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_PR_TITLE: "Release ${{ github.event.inputs.version }}"
+        INPUT_PR_BODY: "Release PR for version ${{ github.event.inputs.version }}"
+        INPUT_PR_BASE: "master"
+        INPUT_PR_HEAD: "develop"
 
-    - name: Add 'release' Label to PR
-      uses: actions/github-script@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.issues.addLabels({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: ${{ steps.create_pr.outputs.pr_number }},
-            labels: ['release']
-          })
 
     # Add steps for automatically merging the PR, possibly waiting for checks
     # You may need to use GitHub API or another Action for merging
