@@ -17,14 +17,12 @@ jobs:
     # Add steps for committing and pushing any changes you want in the release
 
     - name: Create Pull Request
-      id: create_pr
-      uses: repo-sync/pull-request@v2
-      env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        pr_title: "Release ${{ github.event.inputs.version }}"
-        pr_body: "Release PR for version ${{ github.event.inputs.version }}"
-        pr_base: "main"
-        pr_head: "develop"
+      env: 
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: | 
+        gh pr create --title "Release ${{ github.event.inputs.version }}"
+        gh pr create --base develop --head main
+    
 
 
     # Add steps for automatically merging the PR, possibly waiting for checks
